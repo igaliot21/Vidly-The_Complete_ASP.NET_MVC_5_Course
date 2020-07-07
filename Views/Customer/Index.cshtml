@@ -4,6 +4,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<br /><br />
+
 @if (Model.Customers.Count == 0)
 {
     <p>There is no one here, just the echo of a one million souls</p>
@@ -13,16 +15,18 @@ else
 <table class=“table table-bordered table-hover">
     <thead>
         <tr>
-            <th scope="col">Customer List</th>
+            <th>Customer</th>
+            <th>Membership Type</th>
+            <th>Discount Rate</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var customer in Model.Customers)
         {
-        <tr class="table-default">
-            <td>
-                @Html.ActionLink(customer.Name, "GetCustomer", "Customer", new {id=customer.Id},null)
-            </td>
+        <tr>
+            <td>@Html.ActionLink(customer.Name, "GetCustomer", "Customer", new { id = customer.Id }, null)</td>
+            <td>@customer.MenbershipType.Name</td>
+            <td class="text-right">@customer.MenbershipType.DiscountRate %</td>
         </tr>
         }
     </tbody>

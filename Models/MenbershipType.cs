@@ -6,15 +6,14 @@ using System.Web;
 
 namespace Vidly.Models
 {
-    public class Customer
+    public class MenbershipType
     {
         public int Id { get; set; }
         [Required]
         [StringLength(255)]
         public string Name { get; set; }
-        public bool IsSucribedToNewsletter { get; set; }
-        public MenbershipType MenbershipType { get; set; }
-        public int MenbershipTypeId { get; set; }
-        public DateTime? Birthdate { get; set; }
+        public int SingUpFee { get; set; }
+        public int DurationInMonths { get; set; }
+        public int DiscountRate { get; set; }
     }
 }

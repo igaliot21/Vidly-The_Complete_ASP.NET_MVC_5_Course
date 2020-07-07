@@ -4,27 +4,31 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<br />
+<br />
+
 @if (Model.Movies.Count == 0)
 {
     <p>You might be wondering whow is it that there's not a single movie in this god forsaking movie rental joint</p>
     <p>We do wonder too</p>
-}
-else
-{
+    }
+    else
+    {
     <table class=“table table-hover">
         <thead>
             <tr>
-                <th scope="col">Movie List</th>
+                <th>Movie</th>
+                <th>Genre</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var movie in Model.Movies)
             {
-                <tr class="table-default">
-                    <td>@movie.Name</td>
-                </tr>
+            <tr>
+                <td>@Html.ActionLink(movie.Name, "GetMovie", "Movies", new { id = movie.Id }, null)</td>
+                <td>@movie.Genre.Name</td>
+            </tr>
             }
         </tbody>
     </table>
 }
-
