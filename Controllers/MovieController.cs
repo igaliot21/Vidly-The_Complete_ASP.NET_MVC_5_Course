@@ -9,10 +9,10 @@ using Vidly.ViewModels;
 
 namespace Vidly.Controllers
 {
-    public class MoviesController : Controller
+    public class MovieController : Controller
     {
         private ApplicationDbContext context;
-        public MoviesController() {
+        public MovieController() {
             context = new ApplicationDbContext();
         }
         protected override void Dispose(bool disposing)
@@ -65,7 +65,7 @@ namespace Vidly.Controllers
 
                 }
                 context.SaveChanges();
-                return RedirectToAction("Index", "Movies");
+                return RedirectToAction("Index", "Movie");
             }
         }
         /*
