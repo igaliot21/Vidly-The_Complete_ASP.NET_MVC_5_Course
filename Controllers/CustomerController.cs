@@ -53,22 +53,30 @@ namespace Vidly.Controllers
             else return View("CustomerForm", new CustomerFormViewModel(customer, context.MenbershipTypes.ToList()));
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Save(Customer customer)
         {
-            if (customer.Id == 0) 
+            if (!ModelState.IsValid)
             {
-                context.Customers.Add(customer);
+                return View("CustomerForm", new CustomerFormViewModel(customer, context.MenbershipTypes.ToList()));
             }
-            else {
-                Customer editCustomer = context.Customers.Single(c => c.Id == customer.Id);
-                editCustomer.Name                   = customer.Name;
-                editCustomer.Birthdate              = customer.Birthdate;
-                editCustomer.MenbershipTypeId       = customer.MenbershipTypeId;
-                editCustomer.IsSucribedToNewsletter = customer.IsSucribedToNewsletter;
+            else { 
+                if (customer.Id == 0)
+                {
+                    context.Customers.Add(customer);
+                }
+                else
+                {
+                    Customer editCustomer = context.Customers.Single(c => c.Id == customer.Id);
+                    editCustomer.Name = customer.Name;
+                    editCustomer.Birthdate = customer.Birthdate;
+                    editCustomer.MenbershipTypeId = customer.MenbershipTypeId;
+                    editCustomer.IsSucribedToNewsletter = customer.IsSucribedToNewsletter;
 
+                }
+                context.SaveChanges();
+                return RedirectToAction("Index", "Customer");
             }
-            context.SaveChanges();
-            return RedirectToAction("Index","Customer");
         }
     }
 }

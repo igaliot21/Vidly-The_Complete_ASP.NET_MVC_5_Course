@@ -42,24 +42,31 @@ namespace Vidly.Controllers
             else return View("MovieForm", new MovieFormViewModel(movie, context.Genres.ToList()));
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Save(Movie movie)
         {
-            if (movie.Id == 0)
-            {
-                movie.DateAdded = DateTime.Now;
-                context.Movies.Add(movie);
+            if (!ModelState.IsValid){
+                return View("MovieForm", new MovieFormViewModel(movie, context.Genres.ToList()));
             }
             else
             {
-                Movie editMovie         = context.Movies.Single(m => m.Id == movie.Id);
-                editMovie.Name          = movie.Name;
-                editMovie.GenreId       = movie.GenreId;
-                editMovie.ReleaseDate   = movie.ReleaseDate;
-                editMovie.NumberInStock = movie.NumberInStock;
+                if (movie.Id == 0)
+                {
+                    movie.DateAdded = DateTime.Now;
+                    context.Movies.Add(movie);
+                }
+                else
+                {
+                    Movie editMovie = context.Movies.Single(m => m.Id == movie.Id);
+                    editMovie.Name = movie.Name;
+                    editMovie.GenreId = movie.GenreId;
+                    editMovie.ReleaseDate = movie.ReleaseDate;
+                    editMovie.NumberInStock = movie.NumberInStock;
 
+                }
+                context.SaveChanges();
+                return RedirectToAction("Index", "Movies");
             }
-            context.SaveChanges();
-            return RedirectToAction("Index", "Movies");
         }
         /*
         public ActionResult Random()
