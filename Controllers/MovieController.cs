@@ -20,11 +20,10 @@ namespace Vidly.Controllers
             base.Dispose(disposing);
             context.Dispose();
         }
-        // GET: Movies/Random
         public ActionResult index(){
-            //var viewModel = new MovieListViewModel(movies);
-            var viewModel = new MovieListViewModel(context.Movies.Include(m => m.Genre).ToList());
-            return View(viewModel);
+            // var viewModel = new MovieListViewModel(context.Movies.Include(m => m.Genre).ToList());
+            // return View(viewModel);
+            return View();
         }
         public ActionResult GetMovie(int? Id) {
             Movie movie = context.Movies.Include(m => m.Genre).SingleOrDefault(m => m.Id == Id);

@@ -32,8 +32,9 @@ namespace Vidly.Controllers
         // GET: Customer
         public ActionResult Index()
         {
-            var viewModel = new CustomerListViewModel(context.Customers.Include(c => c.MenbershipType).ToList());
-            return View(viewModel);
+            //var viewModel = new CustomerListViewModel(context.Customers.Include(c => c.MenbershipType).ToList());  // se encargara la api aparentemente
+            //return View(viewModel);                                                                                // se encargara la api desde jquery
+            return View();
         }
         public ActionResult GetCustomer(int? Id) 
         {
