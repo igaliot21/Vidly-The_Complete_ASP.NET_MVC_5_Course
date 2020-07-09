@@ -17,9 +17,19 @@ namespace Vidly.Controllers.Api
             context = new ApplicationDbContext();
         }
         // GET /api/customers
-        public IEnumerable<Movie> GetMovies()
+        public IHttpActionResult GetMovies(string query = null)
         {
-            return context.Movies.Include(m => m.Genre).ToList();
+            var moviesQuery = context.Movies.Include(m => m.Genre).Where(m => m.NumberAvailable > 0);
+
+            if (!string.IsNullOrWhiteSpace(query))
+            {
+                moviesQuery = moviesQuery.Where(m => m.Name.Contains(query));
+            }
+
+            var movies = moviesQuery.ToList();
+
+
+            return Ok(movies);
         }
         // GET /api/customers/1
         public IHttpActionResult GetMovie(int Id)
@@ -35,6 +45,7 @@ namespace Vidly.Controllers.Api
             if (!ModelState.IsValid) return BadRequest();
             else
             {
+                movie.NumberAvailable = movie.NumberInStock;
                 context.Movies.Add(movie);
                 context.SaveChanges();
                 return Created(new Uri(Request.RequestUri + "/" + movie.Id), movie);
@@ -55,6 +66,7 @@ namespace Vidly.Controllers.Api
                     movieToEdit.GenreId = movie.GenreId;
                     movieToEdit.ReleaseDate = movie.ReleaseDate;
                     movieToEdit.NumberInStock = movie.NumberInStock;
+                    movieToEdit.NumberAvailable = movie.NumberAvailable;
 
                     context.SaveChanges();
 

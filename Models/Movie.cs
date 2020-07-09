@@ -21,9 +21,13 @@ namespace Vidly.Models
         [Display(Name = "Release Date")]
         [Required(ErrorMessage = "Please enter movies's release date")]
         public DateTime ReleaseDate { get; set; }
-        [Display(Name = "Number In Stock")]
-        [Required(ErrorMessage = "Please enter movies's number is copies")]
+        [Display(Name = "Number of copies in stock")]
+        [Required(ErrorMessage = "Please enter number of copies in stock")]
         [Range(1, 20, ErrorMessage = "The number of copies must be between 1 and 20")]
-        public byte NumberInStock { get; set; }
+        public int NumberInStock { get; set; }
+        [Display(Name = "Number of copies available")]
+        [Required(ErrorMessage = "Please enter number of copies available")]
+        [Range(1, 20, ErrorMessage = "The number of copies must be between 1 and 20")]
+        public int NumberAvailable { get; set; }
     }
 }
