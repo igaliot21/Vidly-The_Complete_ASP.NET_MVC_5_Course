@@ -23,17 +23,20 @@ namespace Vidly.Controllers
         public ActionResult index(){
             // var viewModel = new MovieListViewModel(context.Movies.Include(m => m.Genre).ToList());
             // return View(viewModel);
-            return View();
+            if (User.IsInRole(RoleName.CanManageMovies)) return View("List");
+            else return View("ReadOnlyList");
         }
         public ActionResult GetMovie(int? Id) {
             Movie movie = context.Movies.Include(m => m.Genre).SingleOrDefault(m => m.Id == Id);
             if (movie == null) return HttpNotFound();
             else return View(movie);
         }
+        [Authorize(Roles = RoleName.CanManageMovies)]
         public ActionResult New()
         {
             return View("MovieForm", new MovieFormViewModel(new Movie(), context.Genres.ToList())); ;
         }
+        [Authorize(Roles = RoleName.CanManageMovies)]
         public ActionResult Edit(int? Id)
         {
             Movie movie = context.Movies.Include(m => m.Genre).SingleOrDefault(m => m.Id == Id);
